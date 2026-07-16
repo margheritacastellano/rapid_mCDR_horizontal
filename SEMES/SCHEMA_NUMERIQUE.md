@@ -285,13 +285,21 @@ dans la maille k+1 (même nombre, signe opposé). Avec des flux nuls aux bords, 
 > la même taille. *Vérifié numériquement : erreur relative ~1e−15.*
 
 ### 8.b Positivité
-Grâce à l'upwind, Lᵢ ≥ 0 et Uᵢ ≥ 0 **toujours**. Donc A a une diagonale > 0, des extra-diagonaux
-≤ 0, et est à diagonale dominante : c'est une **M-matrice** → `cⁿ ≥ 0 ⟹ cⁿ⁺¹ ≥ 0`.
-**Jamais de concentration négative.**
+Grâce à l'upwind, **Aₖ, Bₖ, Cₖ, Dₖ ≥ 0 toujours** (ce sont des sommes de `max(·,0)` et de
+`K/δ > 0`). Donc la matrice A a :
 
-> Un schéma **centré** (cᵢ ≈ (cᵢ₋₁+cᵢ)/2 à l'interface) donnerait Lᵢ = −wᵢ/2 + Kᵢ/δᵢ, qui peut
-> devenir **négatif** → perte de la M-matrice → oscillations. Il n'est sûr que si le Péclet de
-> maille `Pe = |w|·δ/K ≤ 2`, ce qui casse en profondeur où K tombe à 1e−5.
+```
+   diagonale        1 + rₖ·(Bₖ + Cₖ)   >  0
+   extra-diagonaux  −rₖ·Aₖ  et  −rₖ·Dₖ  ≤  0
+   + diagonale dominante
+```
+
+C'est une **M-matrice** → `cⁿ ≥ 0 ⟹ cⁿ⁺¹ ≥ 0`. **Jamais de concentration négative.**
+
+> Un schéma **centré** (cᵢ ≈ (cᵢ₋₁+cᵢ)/2 à l'interface) donnerait `Aₖ = −wₖ/2 + Kdₖ`, qui peut
+> devenir **négatif** → l'extra-diagonal `−rₖ·Aₖ` change de signe → perte de la M-matrice →
+> oscillations. Il n'est sûr que si le Péclet de maille `Pe = |w|·δ/K ≤ 2`, ce qui casse en
+> profondeur où K tombe à 1e−5.
 
 ### 8.c Stabilité inconditionnelle
 Aucune contrainte sur Δt — c'est tout l'intérêt face à D ≈ 7,7.
