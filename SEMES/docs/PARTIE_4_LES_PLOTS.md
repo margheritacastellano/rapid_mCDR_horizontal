@@ -140,23 +140,41 @@ depth = 4 ;  dayLast = "0031"     # à 45 m : les doses les plus VIEILLES domine
 depth = 0 ;  dayLast = "0005"     # la traînée à ses débuts
 ```
 
-### 🔬 Le résultat physique le plus intéressant
+### 🔬 Le résultat physique : la colonne s'homogénéise en vieillissant
 
-Compare `depth = 0` et `depth = 4` au jour 31 :
+Compare `niveau_A = 0` et `niveau_B = 4` au jour 31 (avec la cellule « deux profondeurs ») :
 
-- **en surface (0)** → c'est **la source** qui est la plus concentrée (la dose fraîche du jour)
-- **à 45 m (4)** → ce sont les mailles **en aval** (les plus vieilles) qui dominent
+| longitude | 5 m | 45 m | rapport |
+|---|---|---|---|
+| **−1,83 (la source)** | **0,750** | **0,093** | **×8** ← énorme gradient |
+| −0,83 | 0,432 | 0,307 | ×1,4 |
+| 1,50 | 0,373 | 0,333 | ×1,1 |
+| **3,50 (le plus loin)** | **0,352** | **0,328** | **×1,07** ← quasi identique |
 
-**Pourquoi ?** La diffusion prend du **temps**. Une dose fraîche est encore concentrée en
-surface ; une dose lâchée il y a 30 jours a eu le temps de descendre. Comme les vieilles doses
-sont aussi celles qui ont **dérivé le plus loin**, on obtient cette inversion :
+> **Le seul endroit avec un vrai gradient vertical, c'est la SOURCE.**
+> La dose fraîche du jour est encore collée en surface (0,75 en haut contre 0,09 à 45 m).
+> En aval, les doses plus vieilles ont eu le temps de se mélanger : la colonne est
+> **quasi uniforme** sur les 50 premiers mètres (0,35 contre 0,33).
 
+C'est **ça**, la signature de la diffusion verticale : elle homogénéise les ~50 premiers mètres
+en quelques jours. Sur la traînée, on voit donc le **vieillissement** de chaque dose : plus elle
+est loin, plus sa colonne est mélangée.
+
+### 🚨 Le piège des colorbars
+
+Sur la carte, **chaque panneau auto-ajuste sa propre échelle**. Au jour 31 :
 ```
-   surface :   fort à la SOURCE, faible en aval
-   45 m    :   faible à la source, fort EN AVAL
+   niveau 0 :  colorbar 0,20 → 0,75
+   niveau 4 :  colorbar 0,09 → 0,33
 ```
+Donc **le « jaune » à 45 m (0,33) est plus FONCÉ que le « bleu » à 5 m (0,35)**.
 
-C'est la **signature de la diffusion verticale** — exactement ce que le modèle a gagné.
+👉 Comparer les **couleurs** entre deux panneaux auto-échelonnés **n'a aucun sens** : les deux
+cartes *paraissent* se ressembler alors que les valeurs diffèrent d'un facteur 8 à la source.
+
+C'est pour ça que la cellule « deux profondeurs » utilise **`echelle_commune = True`** par
+défaut. Avec une échelle commune, l'inversion à la source saute aux yeux : ⭐ jaune vif à 5 m
+vs ⭐ bleu foncé à 45 m, au même point.
 
 ---
 
@@ -165,7 +183,8 @@ C'est la **signature de la diffusion verticale** — exactement ce que le modèl
 ```
 figures/
 ├── trajectoires.png
-└── ALK0_jour0001_vs_jour0013_niveau1.png
+├── ALK0_jour0001_vs_jour0013_niveau1.png    ← deux JOURS, une profondeur
+└── ALK0_jour0031_niveaux0-4.png             ← un jour, deux PROFONDEURS
 ```
 
 Le nom de la carte **encode les paramètres** : changer `depth` ou `dayLast` produit un
