@@ -176,9 +176,22 @@ Donc **le « jaune » à 45 m (0,33) est plus FONCÉ que le « bleu » à 5 m (0
 👉 Comparer les **couleurs** entre deux panneaux auto-échelonnés **n'a aucun sens** : les deux
 cartes *paraissent* se ressembler alors que les valeurs diffèrent d'un facteur 8 à la source.
 
-C'est pour ça que la cellule « deux profondeurs » utilise **`echelle_commune = True`** par
-défaut. Avec une échelle commune, l'inversion à la source saute aux yeux : ⭐ jaune vif à 5 m
-vs ⭐ bleu foncé à 45 m, au même point.
+C'est pour ça que **les deux cartes** utilisent **`echelle_commune = True`** par défaut.
+Avec une échelle commune, l'inversion à la source saute aux yeux : ⭐ jaune vif à 5 m vs
+⭐ bleu foncé à 45 m, au même point.
+
+Le réglage existe dans les deux cellules :
+
+```python
+echelle_commune = True    # les 2 panneaux partagent la MEME colorbar
+```
+
+Mets-le à `False` seulement si tu veux voir le *détail* d'un panneau très faible (le titre
+affichera alors un avertissement) — mais dans ce cas, **ne compare plus les couleurs**.
+
+> 💡 Les deux panneaux sont aussi masqués **de la même façon** (les mailles jamais touchées,
+> qui valent exactement 0, deviennent blanches). Avant, le panneau de gauche montrait ses
+> zéros en bleu foncé et celui de droite en blanc : impossible de les comparer.
 
 ---
 
