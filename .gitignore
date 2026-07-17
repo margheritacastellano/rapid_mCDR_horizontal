@@ -6,3 +6,6 @@ __pycache__/
 # Sorties de simulation (volumineuses) : snapshots NetCDF ALK0 + trajectoires zarr
 Test/
 *.zarr/
+
+# Figures generees par le notebook
+SEMES/figures/
