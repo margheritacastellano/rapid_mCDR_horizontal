@@ -135,9 +135,13 @@ seule advection). Au-delà de `depth = 8`, la carte sera blanche.
 ## 5. Les combinaisons intéressantes
 
 ```python
+# carte "deux jours, une profondeur"
 depth = 0 ;  dayLast = "0031"     # ⭐ LA figure : la traînée en surface, à la fin
-depth = 4 ;  dayLast = "0031"     # à 45 m : les doses les plus VIEILLES dominent
 depth = 0 ;  dayLast = "0005"     # la traînée à ses débuts
+
+# carte "un jour, deux profondeurs"  (echelle_commune = True)
+jour = "0031" ; niveau_A = 0 ; niveau_B = 4    # ⭐ montre le gradient vertical à la source
+jour = "0005" ; niveau_A = 0 ; niveau_B = 4    # le même, quand la traînée est jeune
 ```
 
 ### 🔬 Le résultat physique : la colonne s'homogénéise en vieillissant
