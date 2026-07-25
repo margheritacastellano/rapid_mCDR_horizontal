@@ -8,6 +8,7 @@ Les quatre documents à lire pour comprendre `test.ipynb`, dans l'ordre conseill
 | 2 | **[SCHEMA_NUMERIQUE.md](SCHEMA_NUMERIQUE.md)** | 📐 **Les maths.** Les volumes finis, le maillage Arakawa C, pourquoi le schéma doit être implicite (D ≈ 7,7), la matrice tridiagonale `A·cⁿ⁺¹ = cⁿ`, et le kernel ligne par ligne. |
 | 3 | **[ALGO_3a_3b.md](ALGO_3a_3b.md)** | ⚙️ **La simulation** (parties 3a et 3b). L'idée (1 jour = 1 particule), puis chaque ligne : la classe `Particle`, `pcol`, `pidx`, la boucle quotidienne, et les 3 pièges qui figeaient le modèle. |
 | 4 | **[PARTIE_4_LES_PLOTS.md](PARTIE_4_LES_PLOTS.md)** | 📊 **Les tracés** (partie 4). Comment choisir le jour et la profondeur, où sont sauvées les figures, et comment lire les résultats. |
+| 5 | **[CHIMIE_CO2.md](CHIMIE_CO2.md)** | 🧪 **La chimie du carbonate** (DIC + flux CO₂). La physique OAE→pCO₂→flux→DIC, comment c'est intégré, et **comment obtenir les données** pour l'activer. |
 
 **[demo_cascade.py](demo_cascade.py)** — un modèle jouet (sans parcels, ~40 lignes) qui démontre
 l'effet cascade en quelques secondes :
@@ -35,6 +36,6 @@ l'effet cascade en quelques secondes :
 
 ## Ce que le modèle ne fait PAS encore
 
-**Aucune chimie du carbonate** : ni DIC, ni pCO₂, ni flux air–mer. Le modèle répond à
-*« où va l'alcalinité ? »*, pas encore à *« combien de CO₂ est absorbé ? »*.
-C'est la perspective n°3 de la présentation.
+La **chimie du carbonate** (DIC + flux CO₂) est **codée mais désactivée** faute de données de
+sensibilité pCO₂ : voir **[CHIMIE_CO2.md](CHIMIE_CO2.md)**. Une fois les données téléchargées, le
+modèle répondra à *« combien de CO₂ est absorbé ? »* (perspective n°3 de la présentation).
