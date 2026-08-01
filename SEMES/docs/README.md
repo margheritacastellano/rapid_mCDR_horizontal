@@ -9,6 +9,7 @@ Les quatre documents à lire pour comprendre `test.ipynb`, dans l'ordre conseill
 | 3 | **[ALGO_3a_3b.md](ALGO_3a_3b.md)** | ⚙️ **La simulation** (parties 3a et 3b). L'idée (1 jour = 1 particule), puis chaque ligne : la classe `Particle`, `pcol`, `pidx`, la boucle quotidienne, et les 3 pièges qui figeaient le modèle. |
 | 4 | **[PARTIE_4_LES_PLOTS.md](PARTIE_4_LES_PLOTS.md)** | 📊 **Les tracés** (partie 4). Comment choisir le jour et la profondeur, où sont sauvées les figures, et comment lire les résultats. |
 | 5 | **[CHIMIE_CO2.md](CHIMIE_CO2.md)** | 🧪 **La chimie du carbonate** (DIC + flux CO₂). La physique OAE→pCO₂→flux→DIC, comment c'est intégré, et **comment obtenir les données** pour l'activer. |
+| 6 | **[EXTRAIRE_DONNEES_CO2.md](EXTRAIRE_DONNEES_CO2.md)** | 📥 **Extraire soi-même les données** de sensibilité pCO₂ depuis ECCO-Darwin (3 fichiers + un script), sans dépendre d'Océane. |
 
 **[demo_cascade.py](demo_cascade.py)** — un modèle jouet (sans parcels, ~40 lignes) qui démontre
 l'effet cascade en quelques secondes :
