@@ -52,20 +52,32 @@ c'est la **rétroaction** (saturation) qui ralentit l'absorption. ✓ *(vérifi�
 - **Sorties** : champ `DIC0` reconstruit (`..._{NNNN}DIC0.nc`) + flux `f_co2` par particule (dans
   le `.zarr`) → carte du flux (`figures/flux_co2.png`).
 
-## 4. ⚠️ Le caveat d'unités (à régler au branchement des vraies données)
+## 4. ✅ Les unités de l'injection (vérifié contre le code source d'Océane et le papier Suselj et al. 2025)
 
-Notre injection d'ALK fait `c[0] += forcing·Δt` (**sans** diviser par l'épaisseur `h₀`), alors
-qu'Océane fait `+= forcing/h₀·Δt`. Notre `ALK0` (et donc `DIC0`) est donc à une **échelle ~10×**
-celle attendue par les vraies sensibilités (qui sont en µM = µmol/kg).
+Aucun recalage nécessaire : `alkalinity_forcing = 0.000012409` est **déjà** un taux volumique
+(meq/(m³·s), donc en µM ALK par seconde), pas un flux de surface. Preuve, remontée jusqu'à la
+source :
 
-- Le **signe** et la **mécanique** (couplage ALK→flux→DIC→transport, rétroaction) sont **corrects**.
-- La **valeur absolue** du flux sera fausse d'un facteur tant que l'échelle n'est pas recalée.
+- Dans le **modèle 2D d'origine** d'Océane (`RapidmCDR/LLC270_OceanParcels_rapidmCDR.ipynb`), le
+  flux **brut** chargé depuis les données de Suselj vaut `f_alk = alk_forcing/area = **1,2409e-4**
+  meq/(m²·s)` (vérifié par son propre print de contrôle). Son kernel fait alors
+  `ALK0[0] += (f_alk / dz) * dt` — c'est cette **division par `dz` (10 m)** qui produit
+  `1,2409e-4 / 10 = **1,2409e-5**`.
+- C'est cette valeur **déjà divisée** qui a été copiée dans les notebooks 3D — la nôtre et
+  l'intermédiaire `rapidmCDR_ALK_3D.ipynb`, dont le kernel confirme :
+  `ALK_new[0] += fieldset.alkalinity_forcing * dt` — **sans** division supplémentaire.
+- Le papier (Suselj et al. 2025, éq. 10 et §2.2.3) confirme la structure attendue : le forçage de
+  surface doit être divisé par l'épaisseur de la couche supérieure (`Δz₁ = 10 m`, explicitement
+  citée dans le papier) avant d'être ajouté comme terme source volumique — exactement ce que fait
+  la division ci-dessus, **une seule fois**, déjà faite en amont.
 
-👉 **Au moment de brancher les vraies données**, vérifier la cohérence d'unités entre :
-`alkalinity_forcing`, la convention d'injection (`/h₀` ou non), et les unités de `dpco2_*`
-(atm/(mol/kg)) et `k_surf` (mol·m/(atm·kg·s)). Le plus simple : aligner notre injection sur celle
-d'Océane (`c[0] += forcing/h[0]·dt`) pour que `ALK0` soit en µM — mais cela change l'échelle de nos
-figures actuelles (à refaire).
+👉 **Notre code (`c[0] += forcing·Δt`) est donc correct tel quel.** Diviser une seconde fois
+(par erreur) reproduirait le bug — désormais identifié — qui affecte le kernel `VerticalConcentration`
+d'origine si on le comparait à la version 2D (celui-ci ne divise pas non plus, cohérent).
+
+*(Ancienne hypothèse, invalidée par cette vérification : on avait d'abord cru l'inverse — qu'il
+manquait une division par `h₀`. C'était faux : la division existe déjà, en amont, dans la valeur
+numérique elle-même.)*
 
 ## 5. 📥 Obtenir les données (la vraie étape)
 

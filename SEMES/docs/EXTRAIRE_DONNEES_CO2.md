@@ -73,10 +73,9 @@ Une fois le fichier en place, `test.ipynb` détecte `CHIMIE = True`. Deux consta
   d'Océane (données Suselj), soit calculée depuis `wspeed` + SST/SALT (formule de Wanninkhof).
   Un ordre de grandeur suffit pour des résultats **relatifs**.
 
-⚠️ **Caveat d'unités** (voir `CHIMIE_CO2.md`, §4) : notre `ALK0` n'est pas divisé par l'épaisseur
-de maille à l'injection, il est donc ~10× l'échelle µM attendue par ces sensibilités. Le **signe
-et la mécanique** du flux sont corrects ; la **valeur absolue** devra être recalée (le plus propre :
-aligner l'injection sur `c[0] += forcing/h[0]*dt`).
+✅ Les unités de l'injection sont correctes telles quelles (`c[0] += forcing*dt`, sans division
+supplémentaire) : `alkalinity_forcing` est déjà un taux volumique, vérifié contre le code source
+d'Océane et le papier Suselj et al. 2025 — voir `CHIMIE_CO2.md`, §4.
 
 ---
 
